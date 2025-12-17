@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinTrack</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    
+    <!-- Auth Screen -->
+    <div id="auth-container" class="auth-container">
+        <div class="auth-box">
+            <h2 id="auth-title">Login</h2>
+            <form id="auth-form">
+                <input type="email" id="email" placeholder="Email" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button type="submit" class="btn-primary" id="auth-submit-btn">Login</button>
+                <p id="auth-error" class="error-text" style="color: red; margin-top: 10px; font-size: 0.9em;"></p>
+                <p class="mt-4">
+                    <span id="auth-toggle-text">No account?</span> 
+                    <a href="#" id="toggle-auth-btn">Register</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="app-container" class="app-container hidden">
+        <aside class="sidebar">
+            <h3>FinTrack</h3>
+            <nav>
+                <button class="nav-btn active">Dashboard</button>
+                <button class="nav-btn" onclick="app.exportCSV()">Export CSV</button>
+                <button class="nav-btn logout" onclick="app.logout()">Logout</button>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <h1>Dashboard</h1>
+                <button class="btn-primary" onclick="ui.toggleModal(true)">+ Add Expense</button>
+            </header>
+
+            <!-- Budget Widget -->
+            <section class="budget-card">
+                <div class="budget-header">
+                    <span>Monthly Budget</span>
+                    <span id="budget-text">$0 / $0</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div id="progress-fill" class="progress-fill" style="width: 0%;"></div>
+                </div>
+                <div class="budget-controls">
+                    <input type="number" id="new-budget-limit" placeholder="Set Limit">
+                    <button class="btn-sm" onclick="app.setBudget()">Update</button>
+                </div>
+            </section>
+
+            <!-- Charts Grid -->
+            <section class="charts-grid">
+                <div class="chart-card">
+                    <h4>Spending by Category</h4>
+                    <canvas id="categoryChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h4>Expense Trend</h4>
+                    <canvas id="trendChart"></canvas>
+                </div>
+            </section>
+
+            <!-- Filters & List -->
+            <section class="recent-activity">
+                <div class="list-header">
+                    <h4>Transactions</h4>
+                    <select id="time-filter" onchange="app.loadData()">
+                        <option value="all">All Time</option>
+                        <option value="month" selected>This Month</option>
+                        <option value="week">This Week</option>
+                        <option value="day">Today</option>
+                    </select>
+                </div>
+                <div id="expense-list" class="expense-list">
+                    <!-- JS renders items here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Add Expense Modal -->
+    <div id="expense-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Add Expense</h3>
+            <form id="expense-form">
+                <input type="number" step="0.01" id="ex-amount" placeholder="Amount" required>
+                <input type="text" id="ex-category" placeholder="Category (e.g. Food)" required>
+                <input type="text" id="ex-desc" placeholder="Description">
+                <input type="date" id="ex-date">
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="ui.toggleModal(false)">Cancel</button>
+                    <button type="submit" class="btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="static/js/app.js"></script>
+</body>
+</html>
