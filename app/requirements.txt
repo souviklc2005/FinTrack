@@ -1,5 +1,6 @@
 fastapi
 uvicorn
+gunicorn   <-- ADD THIS
 sqlalchemy
 pydantic
 pydantic[email]
